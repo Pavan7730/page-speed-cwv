@@ -1,35 +1,19 @@
-let metrics = {
-  lcp: null,
-  cls: 0,
-  inp: null
-};
+// content.js
+importScripts();
 
-// LCP
-new PerformanceObserver((entryList) => {
-  const entries = entryList.getEntries();
-  const last = entries[entries.length - 1];
-  metrics.lcp = Math.round(last.startTime);
-}).observe({ type: "largest-contentful-paint", buffered: true });
-
-// CLS
-new PerformanceObserver((entryList) => {
-  for (const entry of entryList.getEntries()) {
-    if (!entry.hadRecentInput) {
-      metrics.cls += entry.value;
-    }
+(function () {
+  function send(metric) {
+    chrome.runtime.sendMessage({
+      type: "CWV",
+      name: metric.name,
+      value: metric.value.toFixed(2)
+    });
   }
-}).observe({ type: "layout-shift", buffered: true });
 
-// INP
-new PerformanceObserver((entryList) => {
-  const entries = entryList.getEntries();
-  const last = entries[entries.length - 1];
-  metrics.inp = Math.round(last.duration);
-}).observe({ type: "event", buffered: true, durationThreshold: 40 });
-
-// Send data to popup
-chrome.runtime.onMessage.addListener((req, _, sendResponse) => {
-  if (req.type === "GET_CWV") {
-    sendResponse(metrics);
-  }
-});
+  import('https://unpkg.com/web-vitals@3/dist/web-vitals.iife.js')
+    .then(({ getLCP, getCLS, getINP }) => {
+      getLCP(send);
+      getCLS(send);
+      getINP(send);
+    });
+})();
