@@ -2,6 +2,7 @@
   "manifest_version": 3,
   "name": "Page Speed & Core Web Vitals",
   "version": "1.0.0",
+  "description": "Measure Core Web Vitals (LCP, CLS, INP) for the current page using browser performance APIs.",
   "permissions": ["activeTab"],
   "background": {
     "service_worker": "background.js"
@@ -14,6 +15,16 @@
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
 }
