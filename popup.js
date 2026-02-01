@@ -1,35 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Ask background for stored CWV data
   chrome.runtime.sendMessage({ type: "GET_CWV" }, (data) => {
-    // Safety check
-    if (!data) {
-      setLoading();
-      return;
-    }
+    if (!data) return;
 
-    // LCP
-    document.getElementById("lcp").innerText =
-      data.LCP !== null && data.LCP !== undefined
-        ? data.LCP + " s"
-        : "Loading…";
-
-    // CLS
-    document.getElementById("cls").innerText =
-      data.CLS !== null && data.CLS !== undefined
-        ? data.CLS
-        : "Loading…";
-
-    // INP
-document.getElementById("inp").innerText =
-  data.INP !== null && data.INP !== undefined
-    ? data.INP + " ms"
-    : "Interact with page";
+    render("lcp", data.LCP, 2.5, "s");
+    render("cls", data.CLS, 0.1, "");
+    render("inp", data.INP, 200, "ms");
   });
 });
 
-// Fallback
-function setLoading() {
-  document.getElementById("lcp").innerText = "Loading…";
-  document.getElementById("cls").innerText = "Loading…";
-  document.getElementById("inp").innerText = "Loading…";
+function render(id, value, goodLimit, unit) {
+  const circle = document.getElementById(`${id}-circle`);
+  const text = document.getElementById(`${id}-text`);
+  const svg = circle.parentElement;
+
+  if (value === null || value === undefined) return;
+
+  text.innerText = value + unit;
+
+  let percent = Math.min((goodLimit / value) * 100, 100);
+
+  if (value <= goodLimit) {
+    svg.className = "circle good";
+  } else if (value <= goodLimit * 1.5) {
+    svg.className = "circle ok";
+  } else {
+    svg.className = "circle bad";
+  }
+
+  circle.setAttribute("stroke-dasharray", `${percent}, 100`);
 }
