@@ -3,14 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <title>Core Web Vitals</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <h3>Core Web Vitals</h3>
 
-  <p>LCP: <span id="lcp">Loading…</span></p>
-  <p>CLS: <span id="cls">Loading…</span></p>
-  <p>INP: <span id="inp">Loading…</span></p>
+<h3>Core Web Vitals</h3>
 
-  <script src="popup.js"></script>
+<div class="circle-container">
+
+  <div class="circle-box">
+    <svg class="circle good" viewBox="0 0 36 36">
+      <path class="bg"
+        d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"/>
+      <path id="lcp-circle" class="progress"
+        stroke-dasharray="0, 100"
+        d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"/>
+    </svg>
+    <div class="label">LCP</div>
+    <div id="lcp-text" class="value">Loading…</div>
+  </div>
+
+  <div class="circle-box">
+    <svg class="circle good" viewBox="0 0 36 36">
+      <path class="bg" d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"/>
+      <path id="cls-circle" class="progress"
+        stroke-dasharray="0, 100"
+        d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"/>
+    </svg>
+    <div class="label">CLS</div>
+    <div id="cls-text" class="value">Loading…</div>
+  </div>
+
+  <div class="circle-box">
+    <svg class="circle good" viewBox="0 0 36 36">
+      <path class="bg" d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"/>
+      <path id="inp-circle" class="progress"
+        stroke-dasharray="0, 100"
+        d="M18 2.0845
+           a 15.9155 15.9155 0 0 1 0 31.831
+           a 15.9155 15.9155 0 0 1 0 -31.831"/>
+    </svg>
+    <div class="label">INP</div>
+    <div id="inp-text" class="value">Interact</div>
+  </div>
+
+</div>
+
+<script src="popup.js"></script>
 </body>
 </html>
