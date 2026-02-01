@@ -35,15 +35,31 @@
   } catch (e) {}
 
   // -------- INP (approx) --------
-  try {
-    const inpObserver = new PerformanceObserver((entryList) => {
-      const entry = entryList.getEntries()[0];
+// -------- INP (robust handling) --------
+try {
+  let inpValue = null;
+
+  const inpObserver = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+      if (entry.duration && entry.duration > 0) {
+        inpValue = Math.round(entry.duration);
+      }
+    }
+
+    if (inpValue !== null) {
       chrome.runtime.sendMessage({
         type: "CWV_METRIC",
         name: "INP",
-        value: Math.round(entry.duration)
+        value: inpValue
       });
-    });
-    inpObserver.observe({ type: "event", buffered: true, durationThreshold: 40 });
-  } catch (e) {}
+    }
+  });
+
+  inpObserver.observe({
+    type: "event",
+    buffered: true,
+    durationThreshold: 16
+  });
+
+} catch (e) {}
 })();
