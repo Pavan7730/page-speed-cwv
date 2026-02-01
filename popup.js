@@ -20,10 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
         : "Loading…";
 
     // INP
-    document.getElementById("inp").innerText =
-      data.INP !== null && data.INP !== undefined
-        ? data.INP + " ms"
-        : "Loading…";
+document.getElementById("inp").innerText =
+  data.INP !== null && data.INP !== undefined
+    ? data.INP + " ms"
+    : "Interact with page";
   });
 });
 
